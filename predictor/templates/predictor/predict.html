@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Fraud Detection Prediction</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #f9f9f9;
+        }
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #34495e;
+        }
+        select, input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-sizing: border-box;
+            font-size: 14px;
+        }
+        button {
+            background-color: #3498db;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #2980b9;
+        }
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 5px;
+            text-align: center;
+            font-size: 18px;
+        }
+        .result.success {
+            background-color: #e8f5e9;
+            color: #2e7d32;
+            border: 1px solid #c8e6c9;
+        }
+        .result.error {
+            background-color: #ffebee;
+            color: #c62828;
+            border: 1px solid #ffcdd2;
+        }
+    </style>
+</head>
+<body>
+    <h1>Fraud Detection Prediction</h1>
+    <form method="post">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="type">Type</label>
+            <select name="type" id="type" required>
+                <option value="TRANSFER">TRANSFER</option>
+                <option value="CASH_OUT">CASH_OUT</option>
+                <option value="PAYMENT">PAYMENT</option>
+                <option value="CASH_IN">CASH_IN</option>
+                <option value="DEBIT">DEBIT</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="amount">Amount</label>
+            <input type="number" step="any" name="amount" id="amount" required>
+        </div>
+        <div class="form-group">
+            <label for="oldbalanceOrg">Old Balance (Origin)</label>
+            <input type="number" step="any" name="oldbalanceOrg" id="oldbalanceOrg" required>
+        </div>
+        <div class="form-group">
+            <label for="newbalanceOrig">New Balance (Origin)</label>
+            <input type="number" name="newbalanceOrig" id="newbalanceOrig" required>
+        </div>
+        <div class="form-group">
+            <label for="oldbalanceDest">Old Balance (Destination)</label>
+            <input type="number" step="any" name="oldbalanceDest" id="oldbalanceDest" required>
+        </div>
+        <div class="form-group">
+            <label for="newbalanceDest">New Balance (Destination)</label>
+            <input type="number" step="any" name="newbalanceDest" id="newbalanceDest" required>
+        </div>
+        <button type="submit">Predict</button>
+    </form>
+    {% if result %}
+        <div class="result {% if result == 'Not Fraud' %}success{% else %}error{% endif %}">
+            <h2>Result: {{ result }}</h2>
+        </div>
+    {% endif %}
+</body>
+</html>
